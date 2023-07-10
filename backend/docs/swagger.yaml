@@ -1,0 +1,20 @@
+info:
+  contact: {}
+paths:
+  /api/getArticleList:
+    get:
+      consumes:
+      - application/json
+      description: 描述
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: 摘要
+      tags:
+      - 标签
+swagger: "2.0"
