@@ -1,0 +1,1 @@
+export const serverHost: string = import.meta.env.MODE === "development"?"http://localhost:3001" : "http://localhost:3001"

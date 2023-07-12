@@ -36,8 +36,9 @@
       <div class="content">
         <img
           style="width:100%;"
-          src="../assets/BiaoChenXuYing.png"
+          src="../assets/userLogo.jpeg"
           alt="全栈修炼"
+          slot="error"
         />
       </div>
     </div>
@@ -46,7 +47,7 @@
       <div class="content">
         <img
           style="width:100%;"
-          src="../assets/FrontEndGitHub.png"
+          src="../assets/userLogo.jpeg"
           alt="前端GitHub"
         />
       </div>

@@ -3,16 +3,6 @@
     <canvas id="sakura" />
     <div class="content">
       <div class="home-header">
-        <router-link
-          class="link"
-          to="/"
-        >
-          <img
-            class="home-logo"
-            src="../assets/userLogo.jpeg"
-            alt="biaochenxuying logo"
-          />
-        </router-link>
       </div>
       <div class="home-body">
         <div class="list">
@@ -32,7 +22,7 @@
             target="_blank"
             rel="noopener noreferrer"
             class="link"
-            href="https://github.com/biaochenxuying"
+            href="https://github.com/leif-sh/fog"
           >
             github
           </a>
@@ -40,36 +30,12 @@
             target="_blank"
             rel="noopener noreferrer"
             class="link"
-            href="https://juejin.im/user/591d6b4d0ce463006926ae40"
+            href="https://github.com/leif-sh/fog"
           >
-            掘金
-          </a>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            class="link"
-            href="https://www.zhihu.com/people/mo-xu-ming-53/posts"
-          >
-            知乎
-          </a>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            class="link"
-            href="https://segmentfault.com/u/biaochenxuying"
-          >
-            segmentfault
-          </a>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            class="link"
-            href="https://www.jianshu.com/u/91717b553bfd"
-          >
-            简书
+            CSDN
           </a>
         </div>
-        <div class="introduce"> 时光正好，未来可期，加油 ！ </div>
+        <div class="introduce"> 千万利器莫过于你的信念 </div>
       </div>
     </div>
   </div>

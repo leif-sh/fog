@@ -100,11 +100,10 @@ export interface Comments {
 
 export interface ArticleDetailIF {
   toc: string;
-  _id: string;
   author: string;
   category: Array<any>;
   comments: Array<Comments>;
-  created_at: string;
+  created_at: number;
   desc: string;
   content: string;
   id: number;
@@ -139,7 +138,7 @@ export interface ArticlesParams {
   pageSize: number;
 }
 
-export interface List {
+export interface ArticleList {
   category: string[];
   created_at: number;
   desc: string;
@@ -151,7 +150,7 @@ export interface List {
 }
 export interface ArticlesData {
   count: number;
-  list: List[] | any;
+  list: ArticleList[] | any;
 }
 
 

@@ -4,48 +4,35 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/leif-sh/fog/docs"
 	"github.com/leif-sh/fog/src/api"
+	"github.com/leif-sh/fog/src/models"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
 )
 
-var db = make(map[string]string)
-
 func setupRouter() *gin.Engine {
 
-	r := gin.Default()
+	router := gin.Default()
 
 	docs.SwaggerInfo.BasePath = "/api"
-	r.GET("/api/getArticleList", api.GetArticleList)
-	r.GET("/api/getTagList", api.GetTagList)
+	apiGroup := router.Group("/api")
+	{
+		apiGroup.GET("/getArticleList", api.GetArticleList)
+		apiGroup.GET("/getArticleDetail", api.GetArticleDetail)
+		apiGroup.POST("/addComment", api.AddComment)
+		apiGroup.GET("/getTagList", api.GetTagList)
+	}
 
 	// 注册Swagger api相关路由
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-
-	// Get user value
-	r.GET("/user/:name", func(c *gin.Context) {
-		user := c.Params.ByName("name")
-		value, ok := db[user]
-		if ok {
-			c.JSON(http.StatusOK, gin.H{"user": user, "value": value})
-		} else {
-			c.JSON(http.StatusOK, gin.H{"user": user, "status": "no value"})
-		}
-	})
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	// Authorized group (uses gin.BasicAuth() middleware)
-	// Same than:
-	// authorized := r.Group("/")
-	// authorized.Use(gin.BasicAuth(gin.Credentials{
-	//	  "foo":  "bar",
-	//	  "manu": "123",
-	//}))
-	authorized := r.Group("/", gin.BasicAuth(gin.Accounts{
+	adminGroup := router.Group("/admin", gin.BasicAuth(gin.Accounts{
 		"foo":  "bar", // user:foo password:bar
 		"manu": "123", // user:manu password:123
 	}))
-
-	authorized.POST("admin", func(c *gin.Context) {
+	var db = make(map[string]string)
+	adminGroup.POST("admin", func(c *gin.Context) {
 		user := c.MustGet(gin.AuthUserKey).(string)
 
 		// Parse JSON
@@ -59,12 +46,13 @@ func setupRouter() *gin.Engine {
 		}
 	})
 
-	return r
+	return router
 }
 
 func main() {
+	models.InitDB()
 	r := setupRouter()
 	// Listen and Server in 0.0.0.0:8080
 	gin.SetMode(gin.DebugMode)
-	r.Run(":8888")
+	r.Run(":8001")
 }

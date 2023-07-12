@@ -16,7 +16,7 @@
         >
           <a
             :href="state.href + article.id"
-            target="_blank"
+            target="_self"
           >
             <img
               class="wrap-img img-blur-done"
@@ -63,7 +63,8 @@ import {
   getQueryStringByName,
   timestampToTime,
 } from "../utils/utils";
-import { ArticlesParams, ArticlesData } from "../types/index";
+import {ArticlesParams, ArticlesData, ArticleList} from "../types/index";
+import {serverHost} from "../utils/settings";
 
 // 获取可视区域的高度
 const viewHeight = window.innerHeight || document.documentElement.clientHeight;
@@ -90,7 +91,6 @@ const lazyload = throttle(() => {
     }
   }
 }, 1000);
-const serverHost: string = import.meta.env.MODE === "development"?"http://localhost:3001" : "http://localhost:3001"
 
 export default defineComponent({
   name: "Articles",
@@ -110,7 +110,7 @@ export default defineComponent({
     const state = reactive({
       isLoadEnd: false,
       isLoading: false,
-      articlesList: [] as Array<any>,
+      articlesList: [] as Array<ArticleList>,
       total: 0,
       tag_name: decodeURI(getQueryStringByName("tag_name")),
       params: {
@@ -124,7 +124,7 @@ export default defineComponent({
       } as ArticlesParams,
       href: serverHost + "/articleDetail?article_id="
     });
-    const formatTime = (value: string | Date): string => {
+    const formatTime = (value: number): string => {
       return timestampToTime(value, true);
     };
 
@@ -243,7 +243,7 @@ export default defineComponent({
         a {
           margin-right: 10px;
           color: #b4b4b4;
-          &::hover {
+          &:hover {
             transition: 0.1s ease-in;
             -webkit-transition: 0.1s ease-in;
             -moz-transition: 0.1s ease-in;

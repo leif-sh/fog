@@ -144,11 +144,10 @@ export default defineComponent({
       content: "",
       articleDetail: {
         toc: "",
-        _id: "",
         author: "fog",
         category: [],
         comments: [],
-        created_at: "",
+        created_at: 1,
         desc: "",
         content: "",
         id: 16,
@@ -168,13 +167,13 @@ export default defineComponent({
       likeTimes: 0, // 点赞次数
     });
 
-    const formatTime = (value: string | Date): string => {
+    const formatTime = (value: number): string => {
       return timestampToTime(value, true);
     };
 
     const handleSearch = async (): Promise<void> => {
       state.isLoading = true;
-      const data: any = await service.post(urls.getArticleDetail, state.params);
+      const data: any = await service.get(urls.getArticleDetail, {params: state.params});
       state.isLoading = false;
 
       state.articleDetail = data;
@@ -240,7 +239,7 @@ export default defineComponent({
     };
 
     const handleAddComment = async (): Promise<void> => {
-      if (!state.articleDetail._id) {
+      if (!state.articleDetail.id) {
         ElMessage({
           message: "该文章不存在！",
           type: "error",
@@ -273,22 +272,22 @@ export default defineComponent({
         });
         return;
       }
-      let user_id = "";
-      if (window.sessionStorage.userInfo) {
-        let userInfo = JSON.parse(window.sessionStorage.userInfo);
-        user_id = userInfo._id;
-      } else {
-        ElMessage({
-          message: "登录才能评论，请先登录！",
-          type: "warning",
-        });
-        return;
-      }
+      // let user_id = "";
+      // if (window.sessionStorage.userInfo) {
+      //   let userInfo = JSON.parse(window.sessionStorage.userInfo);
+      //   user_id = userInfo._id;
+      // } else {
+      //   ElMessage({
+      //     message: "登录才能评论，请先登录！",
+      //     type: "warning",
+      //   });
+      //   return;
+      // }
 
       state.btnLoading = true;
       await service.post(urls.addComment, {
-        article_id: state.articleDetail._id,
-        user_id,
+        article_id: state.articleDetail.id,
+        user_id: 1,
         content: state.content,
       });
       state.btnLoading = false;

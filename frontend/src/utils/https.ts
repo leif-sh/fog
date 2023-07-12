@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { ElMessage } from "element-plus";
+import {serverHost} from "./settings";
 
 export interface ResponseData {
   code: number;
@@ -8,15 +9,12 @@ export interface ResponseData {
 }
 
 
-// console.log('import.meta.env: ', import.meta.env);
-
-const serverHost: string = import.meta.env.MODE === "development"?"http://localhost:3001" : "http://localhost:3001"
 // 创建 axios 实例
 let service: AxiosInstance | any;
 
 service = axios.create({
   baseURL: serverHost +"/api/", // api 的 base_url
-  timeout: 50000 // 请求超时时间
+  timeout: 30 * 1000 // 请求超时时间 ms
 });
 
 

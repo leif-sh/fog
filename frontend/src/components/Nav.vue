@@ -213,8 +213,8 @@ export default defineComponent({
   },
   computed: {
     userInfo(): UserInfo {
-      let userInfo: { name: string; id: string; avatar: string } = {
-        id: "",
+      let userInfo: { name: string; id: number; avatar: string } = {
+        id: 0,
         name: "",
         avatar: "",
       };
