@@ -54,5 +54,8 @@ func main() {
 	r := setupRouter()
 	// Listen and Server in 0.0.0.0:8080
 	gin.SetMode(gin.DebugMode)
-	r.Run(":8001")
+	err := r.Run(":8001")
+	if err != nil {
+		return
+	}
 }
