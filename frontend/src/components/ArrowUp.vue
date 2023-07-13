@@ -2,7 +2,7 @@
 <template>
   <div>
     <i
-      v-show="isShowBtn"
+      v-show="state.isShowBtn"
       @click="topFunction"
       class="el-icon-arrow-up"
     ></i>
@@ -21,14 +21,8 @@ export default defineComponent({
     onMounted(() => {
       // 当网页向下滑动 20px 出现"返回顶部" 按钮
       window.onscroll = (): void => {
-        if (
-          window.document.body.scrollTop > 100 ||
-          window.document.documentElement.scrollTop > 100
-        ) {
-          state.isShowBtn = true;
-        } else {
-          state.isShowBtn = false;
-        }
+        state.isShowBtn = window.document.body.scrollTop > 100 ||
+            window.document.documentElement.scrollTop > 100;
       };
     });
 

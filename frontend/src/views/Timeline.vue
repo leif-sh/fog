@@ -3,7 +3,7 @@
     <el-timeline>
       <el-timeline-item
         v-for="(l, i) in state.list"
-        :key="l._id"
+        :key="l.id"
         :color="l.state === 1 ? 'green' : l.state === 3 ? 'red' : ''"
         placement="top"
         hide-timestamp
@@ -58,7 +58,7 @@ export default defineComponent({
       } as Params,
     });
 
-    const formatTime = (value: string | Date): string => {
+    const formatTime = (value: number): string => {
       return timestampToTime(value, true);
     };
 

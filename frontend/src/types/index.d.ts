@@ -6,7 +6,7 @@ export interface Meta {
 }
 
 export interface ToUser {
-  user_id: string;
+  user_id: number;
   name: string;
   avatar: string;
   type: number;
@@ -59,7 +59,7 @@ export interface ParamsArchive {
 export interface ArchiveListItem {
   created_at: string;
   title: string;
-  _id: string;
+  id: string;
 }
 export interface ArchiveList {
   year: string;
@@ -79,10 +79,10 @@ export interface OtherComments {
   state: number;
   to_user: ToUser;
   user: ToUser;
-  _id: string;
+  id: number;
 }
 export interface Comments {
-  article_id: string;
+  article_id: number;
   content: string;
   created_at: string;
   id: number;
@@ -91,11 +91,10 @@ export interface Comments {
   likes: number;
   other_comments: OtherComments[];
   state: number;
-  update_time: string;
+  updated_at: number;
   user: ToUser;
   user_id: string;
   __v: number;
-  _id: string;
 }
 
 export interface ArticleDetailIF {
@@ -119,7 +118,7 @@ export interface ArticleDetailIF {
   updated_at: string;
 }
 export interface ArticleDetailParams {
-  id: string | string[];
+  id: number;
   type: number;
 }
 export interface LikeParams {
@@ -196,7 +195,7 @@ export interface TimelineList {
   start_time: string;
   title: string;
   state: number;
-  _id: string;
+  id: number;
 }
 export interface TimelinesData {
   count: number;
@@ -207,7 +206,7 @@ export interface TimelinesData {
 // 标签
 export interface TagList {
   name: string;
-  _id: string;
+  id: string;
 }
 export interface TagsData {
   count: number;

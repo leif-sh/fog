@@ -17,7 +17,7 @@
           hide-timestamp
         >
           <router-link
-            :to="`/articleDetail?article_id=${item._id}`"
+            :to="`/articleDetail?article_id=${item.id}`"
             target="_blank"
           >
             <h3 class="title">{{item.title}}</h3>
@@ -55,7 +55,7 @@ export default defineComponent({
       } as ParamsArchive
     });
 
-    const formatTime = (value: string | Date): string => {
+    const formatTime = (value: number): string => {
       return timestampToTime(value, true);
     }
 

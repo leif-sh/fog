@@ -154,7 +154,7 @@ export default defineComponent({
       state.btnLoading = false;
 
       const userInfo: UserInfo = {
-        _id: data._id,
+        id: data.id,
         name: data.name,
         avatar: data.avatar,
       };

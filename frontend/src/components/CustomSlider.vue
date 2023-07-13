@@ -25,10 +25,10 @@
       <router-link
         v-for="item in state.list"
         class="item"
-        :key="item._id"
-        :to="`/articles?tag_id=${item._id}&tag_name=${item.name}&category_id=`"
+        :key="item.id"
+        :to="`/articles?tag_id=${item.id}&tag_name=${item.name}&category_id=`"
       >
-        <span :key="item._id">{{item.name}}</span>
+        <span :key="item.id">{{item.name}}</span>
       </router-link>
     </div>
     <div class="introduce">

@@ -3,7 +3,7 @@ import { timestampToTime } from "../utils/utils";
 
 const mixin = {
   methods: {
-    formatTime(value: string | Date): string {
+    formatTime(value: number): string {
       return timestampToTime(value, true);
     }
   }

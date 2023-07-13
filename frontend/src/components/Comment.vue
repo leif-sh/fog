@@ -49,8 +49,8 @@ export default defineComponent({
       default: "",
     },
     article_id: {
-      type: String,
-      default: "",
+      type: Number,
+      default: 0,
     },
     to_user: {
       // type: any,
@@ -110,7 +110,7 @@ export default defineComponent({
       let user_id = "";
       if (window.sessionStorage.userInfo) {
         let userInfo = JSON.parse(window.sessionStorage.userInfo);
-        user_id = userInfo._id;
+        user_id = userInfo.id;
       } else {
         ElMessage({
           message: "登录才能评论，请先登录！",

@@ -10,7 +10,7 @@
             <router-link to="/">
               <img
                 class="logo"
-                src="../assets/logo.jpg"
+                src="../assets/userLogo.jpeg"
                 alt="fogBlog"
               >
             </router-link>
@@ -90,7 +90,7 @@
           <router-link to="/">
             <img
               class="logo fl"
-              src="../assets/logo.jpg"
+              src="../assets/userLogo.jpeg"
               alt="BiaoChenXuYing"
             >
           </router-link>
@@ -329,7 +329,7 @@ export default defineComponent({
       window.sessionStorage.userInfo = "";
       store.commit("SAVE_USER", {
         userInfo: {
-          _id: "",
+          id: 0,
           name: "",
           avatar: "",
         },

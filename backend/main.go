@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/leif-sh/fog/docs"
 	"github.com/leif-sh/fog/src/api"
+	"github.com/leif-sh/fog/src/middleware"
 	"github.com/leif-sh/fog/src/models"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -13,14 +14,22 @@ import (
 func setupRouter() *gin.Engine {
 
 	router := gin.Default()
-
+	router.Use(middleware.Logger())
 	docs.SwaggerInfo.BasePath = "/api"
 	apiGroup := router.Group("/api")
 	{
+		apiGroup.POST("/register", api.Register)
+		apiGroup.POST("/login", api.Login)
+		apiGroup.POST("/logout", api.Logout)
+
 		apiGroup.GET("/getArticleList", api.GetArticleList)
 		apiGroup.GET("/getArticleDetail", api.GetArticleDetail)
+
 		apiGroup.POST("/addComment", api.AddComment)
+		apiGroup.POST("/addThirdComment", api.AddThirdComment)
+		apiGroup.GET("/getCommentList", api.GetCommentList)
 		apiGroup.GET("/getTagList", api.GetTagList)
+
 	}
 
 	// 注册Swagger api相关路由

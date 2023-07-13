@@ -44,22 +44,12 @@ func GetArticleDetail(c *gin.Context) {
 			ID: uint64(_id),
 		},
 	}
-	res := conn.Preload("Meta").Preload("Comment").Preload("Tags").First(&article)
+	res := conn.Preload("Meta").Preload("Comment").Preload("Comment.User").Preload("Tags").First(&article)
 	if res.Error != nil {
 		fmt.Println(res.Error)
 		http.ErrorResponse(c, res.Error.Error())
 	}
 	http.SuccessResponse(c, article)
-}
-
-func AddComment(c *gin.Context) {
-	conn := models.GetDBConn()
-	newComment := models.Comment{}
-	if err := c.ShouldBind(&newComment); err != nil {
-		http.ErrorResponse(c, err.Error())
-	}
-	conn.Create(&newComment)
-	http.SuccessResponse(c, "success")
 }
 
 // GetTagList
