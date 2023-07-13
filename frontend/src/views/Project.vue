@@ -5,7 +5,7 @@
         class="el-col-pointer"
         :span="state.isMobileOrPc ? 24 : 12"
         v-for="(l, index) in state.list"
-        :key="l._id"
+        :key="l.id"
         style="margin-bottom: 20px"
       >
         <a
@@ -72,7 +72,7 @@ export default defineComponent({
       } as Params
     });
 
-    const formatTime = (value: string | Date): string => {
+    const formatTime = (value: number): string => {
       return timestampToTime(value, true);
     };
 

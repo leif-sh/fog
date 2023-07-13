@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func SuccessResponse(c *gin.Context, data interface{}) {
+func SuccessResponse(c *gin.Context, data any) {
 	c.JSON(http.StatusOK, gin.H{
 		"status": "success",
 		"data":   data,

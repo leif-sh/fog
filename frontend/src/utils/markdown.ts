@@ -1,8 +1,7 @@
 // https://www.cherylgood.cn/detail/5bdaf4722382b4646c27143b.html
 import highlight from 'highlight.js'
 import {marked} from 'marked'
-// const highlight = require("highlight.js");
-// const marked = require("marked");
+import {markedHighlight} from "marked-highlight";
 const tocObj = {
   add: function (text: any, level: any) {
     var anchor = `#toc${level}${++this.index}`;
@@ -66,7 +65,6 @@ const tocObj = {
 
 class MarkUtils {
   private rendererMD: any;
-  private markDownOption: any;
 
   constructor() {
     this.rendererMD = new marked.Renderer() as any;
@@ -77,27 +75,37 @@ class MarkUtils {
     this.rendererMD.table = function (header: any, body: any) {
       return '<table class="table" border="0" cellspacing="0" cellpadding="0">' + header + body + '</table>'
     }
-    highlight.configure({});
 
-    this.markDownOption = {
+    marked.setOptions({
       renderer: this.rendererMD,
-      headerIds: false,
       gfm: true,
       // tables: true,
       breaks: false,
       pedantic: false,
-      sanitize: false,
       smartLists: true,
-      smartypants: false,
-      highlight: function (code: any) {
-        return highlight.highlightAuto(code).value;
-      }
-    };
+      headerIds: false,
+      mangle: false,
+    });
+    // marked.use(markedHighlight({
+    //   async: true,
+    //   highlight(code, lang):Promise<string> {
+    //     return new Promise((resolve, reject) => {
+    //       pygmentize({ lang, format: 'html' }, code, function (err, result) {
+    //         if (err) {
+    //           resolve(err);
+    //           return;
+    //         }
+    //
+    //         resolve(result.toString());
+    //       });
+    //     });
+    //   }
+    // }));
   }
 
   async marked(data: any) {
     if (data) {
-      let content = await marked(data, this.markDownOption);
+      let content = await marked(data);
       let toc = tocObj.toHTML();
       return { content: content, toc: toc };
     } else {

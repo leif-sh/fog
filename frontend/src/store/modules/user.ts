@@ -3,7 +3,7 @@ import * as types from "../types";
 const initPageState = () => {
   return {
     userInfo: {
-      _id: "",
+      id: 0,
       name: "",
       avatar: ""
     }

@@ -6,7 +6,7 @@
     </div>
     <div
       v-for="(item, i) in list"
-      :key="item._id"
+      :key="item.id"
       class="item"
     >
       <div class="item-header">
@@ -37,7 +37,7 @@
       <div class="comment-detail">{{item.content}}</div>
       <div class="item-comment">
         <div
-          @click="showCommentModal(item._id, item.user)"
+          @click="showCommentModal(item.id, item.user)"
           class="message"
         >
           <el-button size="small">回复</el-button>
@@ -45,7 +45,7 @@
       </div>
       <div
         v-for="e in item.other_comments"
-        :key="e._id"
+        :key="e.id"
         class="item-other"
       >
         <div class="item-header">
@@ -80,7 +80,7 @@
         <div class="item-comment">
           <div class="message">
             <el-button
-              @click="showCommentModal(item._id, item.user, e.user)"
+              @click="showCommentModal(item.id, item.user, e.user)"
               size="small"
             >回复</el-button>
           </div>
@@ -101,7 +101,7 @@
 import { ElMessage } from "element-plus";
 import { defineComponent, defineAsyncComponent, reactive } from "vue";
 import { timestampToTime } from "../utils/utils";
-import { ToUser } from "../types/index";
+import { Comments, ToUser } from "../types";
 
 export default defineComponent({
   name: "CommentList",
@@ -110,7 +110,7 @@ export default defineComponent({
   },
   props: {
     list: {
-      // type: Array<never>,
+      type: Array<Comments>,
       default: [] as any,
     },
     numbers: {
@@ -118,14 +118,14 @@ export default defineComponent({
       default: 0,
     },
     article_id: {
-      type: String,
-      default: "",
+      type: Number,
+      default: 0,
     },
   },
   setup(props, context) {
     const state = reactive({
       visible: false,
-      comment_id: "",
+      comment_id: 0,
       to_user: {
         user_id: "",
         name: "",
@@ -134,7 +134,7 @@ export default defineComponent({
       }
     });
 
-    const formatTime = (value: string | Date): string => {
+    const formatTime = (value: number): string => {
       return timestampToTime(value, true);
     };
 
@@ -149,7 +149,7 @@ export default defineComponent({
 
     // 添加评论
     const showCommentModal = (
-      commitId: string,
+      commitId: number,
       user: ToUser,
       secondUser?: ToUser
     ): boolean | void => {

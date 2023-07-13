@@ -49,7 +49,7 @@
               <el-tag
                 size="mini"
                 v-for="tag in state.articleDetail.tags"
-                :key="tag._id"
+                :key="tag.id"
                 class="tag"
                 type="success"
               >{{tag.name}}</el-tag>
@@ -93,7 +93,7 @@
           v-if="!state.isLoading"
           :numbers="state.articleDetail.meta.comments"
           :list="state.articleDetail.comments"
-          :article_id="state.articleDetail._id"
+          :article_id="state.articleDetail.id"
           @refreshArticle="refreshArticle"
         />
       </div>
@@ -138,7 +138,7 @@ export default defineComponent({
       isLoading: false,
       isMobileOrPc: isMobileOrPc(),
       params: {
-        id: "",
+        id: 0,
         type: 1, //文章类型 => 1: 普通文章，2: 简历，3: 管理员介绍
       } as ArticleDetailParams,
       content: "",
@@ -196,7 +196,7 @@ export default defineComponent({
     };
 
     const likeArticle = async (): Promise<void> => {
-      if (!state.articleDetail._id) {
+      if (!state.articleDetail.id) {
         ElMessage({
           message: "该文章不存在！",
           type: "warning",
@@ -215,7 +215,7 @@ export default defineComponent({
       let user_id: string = "";
       if (window.sessionStorage.userInfo) {
         let userInfo = JSON.parse(window.sessionStorage.userInfo);
-        user_id = userInfo._id;
+        user_id = userInfo.id;
       } else {
         ElMessage({
           message: "登录才能点赞，请先登录！",

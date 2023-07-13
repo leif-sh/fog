@@ -9,7 +9,7 @@ type Article struct {
 	Tags        []*Tag             `gorm:"many2many:article_tag_rel;" json:"tags"`
 	Categories  []*ArticleCategory `gorm:"many2many:article_category_rel;" json:"category"`
 	Meta        Meta               `gorm:"foreignKey:ArticleID" json:"meta"`
-	Comment     []Comment          `gorm:"foreignKey:ArticleID" json:"comment"`
+	Comment     []Comment          `gorm:"foreignKey:ArticleID" json:"comments"`
 	Keyword     StrList            `gorm:"size:256" json:"keyword"`
 	ArticleType int                `json:"type"`
 	Content     string             `gorm:"type:text;" json:"content"`
