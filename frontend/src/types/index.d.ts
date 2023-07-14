@@ -93,7 +93,7 @@ export interface Comments {
   state: number;
   updated_at: number;
   user: ToUser;
-  user_id: string;
+  user_id: number;
   __v: number;
 }
 
@@ -122,8 +122,8 @@ export interface ArticleDetailParams {
   type: number;
 }
 export interface LikeParams {
-  id: string;
-  user_id: string;
+  id: number;
+  user_id: number;
 }
 
 // 文章列表

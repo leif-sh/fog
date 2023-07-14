@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/leif-sh/fog/src/http"
 	"github.com/leif-sh/fog/src/models"
-	"strconv"
+	"github.com/leif-sh/fog/src/utils"
 )
 
 // GetArticleList
@@ -34,22 +34,41 @@ func GetArticleList(c *gin.Context) {
 
 func GetArticleDetail(c *gin.Context) {
 	conn := models.GetDBConn()
-	articleID := c.Query("id")
-	_id, err := strconv.Atoi(articleID)
+	articleID, err := utils.StrToInt(c.Query("id"))
 	if err != nil {
 		http.ErrorResponse(c, err.Error())
 	}
 	var article = models.Article{
 		BaseModel: models.BaseModel{
-			ID: uint64(_id),
+			ID: uint64(articleID),
 		},
 	}
-	res := conn.Preload("Meta").Preload("Comment").Preload("Comment.User").Preload("Tags").First(&article)
-	if res.Error != nil {
-		fmt.Println(res.Error)
-		http.ErrorResponse(c, res.Error.Error())
-	}
+	conn.Preload("Meta").Preload("Comment.OtherComments").Preload("Tags").First(&article)
+	var comments []models.Comment
+	conn.Preload("User").Where("article_id = ?", article.ID).Find(&comments)
+	article.Comment = comments
+	article.Meta.Views++
+	conn.Save(&article.Meta)
 	http.SuccessResponse(c, article)
+}
+
+func LikeArticle(c *gin.Context) {
+	conn := models.GetDBConn()
+	var requestBody struct {
+		ID     uint64 `json:"id"`
+		UserID uint64 `json:"user_id"`
+	}
+	if err := c.ShouldBind(&requestBody); err != nil {
+		utils.SugarLogger.Error("error param", "article_id", requestBody.ID)
+		http.ErrorResponse(c, err.Error())
+	}
+	meta := models.Meta{
+		ArticleID: requestBody.ID,
+	}
+	conn.First(&meta)
+	meta.Likes++
+	conn.Save(&meta)
+	http.SuccessResponse(c, "success")
 }
 
 // GetTagList

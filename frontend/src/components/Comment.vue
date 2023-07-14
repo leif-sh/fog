@@ -107,7 +107,7 @@ export default defineComponent({
         return;
       }
 
-      let user_id = "";
+      let user_id = 0;
       if (window.sessionStorage.userInfo) {
         let userInfo = JSON.parse(window.sessionStorage.userInfo);
         user_id = userInfo.id;
@@ -121,9 +121,9 @@ export default defineComponent({
       state.btnLoading = true;
       await service.post(urls.addThirdComment, {
         article_id: props.article_id,
-        user_id,
+        user_id: user_id,
         comment_id: props.comment_id,
-        to_user: JSON.stringify(props.to_user),
+        to_user_id: props.to_user.id,
         content: state.content,
       });
       state.btnLoading = false;

@@ -6,9 +6,11 @@ type Comment struct {
 	UserID        uint64    `json:"user_id"`
 	User          User      `json:"user"`
 	ToUserID      uint64    `json:"to_user_id"`
+	ToUser        User      `json:"to_user"`
 	Content       string    `gorm:"type:text;" json:"content"`
 	IsTop         bool      `gorm:"type:tinyint" json:"is_top"`
 	IsHandle      bool      `gorm:"type:tinyint" json:"is_handle"`
 	Likes         int       `json:"likes"`
-	OtherComments []Comment `json:"other_comments"`
+	CommentID     uint64    `json:"comment_id"`
+	OtherComments []Comment `gorm:"foreignKey:CommentID" json:"other_comments"`
 }

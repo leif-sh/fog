@@ -6,6 +6,7 @@ import (
 	"github.com/leif-sh/fog/src/api"
 	"github.com/leif-sh/fog/src/middleware"
 	"github.com/leif-sh/fog/src/models"
+	"github.com/leif-sh/fog/src/utils"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
@@ -24,6 +25,7 @@ func setupRouter() *gin.Engine {
 
 		apiGroup.GET("/getArticleList", api.GetArticleList)
 		apiGroup.GET("/getArticleDetail", api.GetArticleDetail)
+		apiGroup.POST("/likeArticle", api.LikeArticle)
 
 		apiGroup.POST("/addComment", api.AddComment)
 		apiGroup.POST("/addThirdComment", api.AddThirdComment)
@@ -60,6 +62,7 @@ func setupRouter() *gin.Engine {
 
 func main() {
 	models.InitDB()
+	utils.InitLog()
 	r := setupRouter()
 	// Listen and Server in 0.0.0.0:8080
 	gin.SetMode(gin.DebugMode)
