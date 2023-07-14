@@ -29,12 +29,5 @@ func Login(c *gin.Context) {
 }
 
 func Logout(c *gin.Context) {
-	conn := models.GetDBConn()
-	var newUser models.User
-	err := c.ShouldBind(&newUser)
-	if err != nil {
-		return
-	}
-	conn.Create(&newUser)
 	http.SuccessResponse(c, "success")
 }

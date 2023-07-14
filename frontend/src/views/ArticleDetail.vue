@@ -212,7 +212,7 @@ export default defineComponent({
         return;
       }
 
-      let user_id: string = "";
+      let user_id: number = 0;
       if (window.sessionStorage.userInfo) {
         let userInfo = JSON.parse(window.sessionStorage.userInfo);
         user_id = userInfo.id;
@@ -224,7 +224,7 @@ export default defineComponent({
         return;
       }
       let params: LikeParams = {
-        id: state.articleDetail._id,
+        id: state.articleDetail.id,
         user_id,
       };
       await service.post(urls.likeArticle, params);

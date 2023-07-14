@@ -22,9 +22,12 @@ func (w responseWriter) Write(b []byte) (int, error) {
 
 func Logger() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		logger := utils.GetLog()
-		defer logger.Sync() // flushes buffer, if any
-		sugar := logger.Sugar()
+		defer func() {
+			err := utils.SugarLogger.Sync()
+			if err != nil {
+				utils.SugarLogger.Error("Failed append log")
+			}
+		}() // flushes buffer, if any
 
 		writer := responseWriter{
 			c.Writer,
@@ -32,9 +35,9 @@ func Logger() gin.HandlerFunc {
 		}
 		c.Writer = writer
 
-		sugar.Infow("【request:】", "body", c.Request.Body)
+		utils.SugarLogger.Infow("【request:】", "body", c.Request.Body)
 		c.Next()
-		sugar.Infow("【response:】", "body", writer.b.String())
+		utils.SugarLogger.Infow("【response:】", "body", writer.b.String())
 
 	}
 }

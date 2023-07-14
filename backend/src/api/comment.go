@@ -21,7 +21,7 @@ func GetCommentList(c *gin.Context) {
 	if err != nil {
 		http.ErrorResponse(c, err.Error())
 	}
-	res := conn.Model(models.Comment{}).Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&comments)
+	res := conn.Model(models.Comment{}).Preload("User").Preload("OtherComments").Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&comments)
 	if res.Error != nil {
 		http.ErrorResponse(c, res.Error.Error())
 	}
@@ -38,13 +38,21 @@ func AddComment(c *gin.Context) {
 		http.ErrorResponse(c, err.Error())
 	}
 	conn.Create(&newComment)
+	meta := models.Meta{
+		ArticleID: newComment.ArticleID,
+	}
+	conn.First(&meta)
+	meta.Comments++
+	conn.Save(&meta)
 	http.SuccessResponse(c, "success")
 }
 
 func AddThirdComment(c *gin.Context) {
 	conn := models.GetDBConn()
 	newComment := models.Comment{}
+
 	if err := c.ShouldBind(&newComment); err != nil {
+		utils.SugarLogger.Error(err.Error())
 		http.ErrorResponse(c, err.Error())
 	}
 	conn.Create(&newComment)

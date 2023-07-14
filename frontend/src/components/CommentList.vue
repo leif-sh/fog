@@ -127,7 +127,7 @@ export default defineComponent({
       visible: false,
       comment_id: 0,
       to_user: {
-        user_id: "",
+        user_id: 0,
         name: "",
         avatar: "",
         type: 0,

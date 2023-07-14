@@ -10,3 +10,11 @@ type User struct {
 	Avatar   string `gorm:"size:256" json:"avatar"`
 	UserType int    `json:"type"`
 }
+
+type APIUser struct {
+	Email  string `gorm:"size:256;" json:"email"`
+	Name   string `gorm:"size:256;default:" json:"name"`
+	Phone  string `gorm:"size:20;" json:"phone"`
+	Desc   string `gorm:"size:256;" json:"desc"`
+	Avatar string `gorm:"size:256" json:"avatar"`
+}
