@@ -44,20 +44,18 @@
                   {{userInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <img
-                  v-if="!userInfo.avatar"
-                  class="user-img"
                   src="../assets/user.png"
-                  alt="BiaoChenXuYing"
-                >
-                <img
-                  v-if="userInfo.avatar"
                   class="user-img"
                   :src="userInfo.avatar"
-                  alt="BiaoChenXuYing"
-                >
+                  alt="fogBlog"
+                />
+                {{console.log(userInfo.id)}}
+                {{console.log(userInfo.avatar)}}
+                <template #dropdown>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item command="logout">登 出</el-dropdown-item>
                 </el-dropdown-menu>
+                </template>
               </el-dropdown>
             </div>
           </el-col>

@@ -32,5 +32,5 @@ type Meta struct {
 type Tag struct {
 	BaseModel
 	Articles []*Article `gorm:"many2many:article_tag_rel;"`
-	Name     string
+	Name     string     `json:"name"`
 }

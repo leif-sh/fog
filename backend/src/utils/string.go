@@ -9,7 +9,7 @@ func StrToInt(input string) (int, error) {
 	return res, err
 }
 
-func StrToInt64(input string) (uint64, error) {
+func StrToUInt64(input string) (uint64, error) {
 	res, err := strconv.Atoi(input)
 	return uint64(res), err
 }

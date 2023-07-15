@@ -153,6 +153,9 @@ export default defineComponent({
       }
       state.btnLoading = false;
 
+      if (data.status === "error"){
+        return
+      }
       const userInfo: UserInfo = {
         id: data.id,
         name: data.name,

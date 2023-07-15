@@ -225,7 +225,7 @@ export default defineComponent({
       }
       let params: LikeParams = {
         id: state.articleDetail.id,
-        user_id,
+        user_id: user_id,
       };
       await service.post(urls.likeArticle, params);
       state.isLoading = false;
@@ -272,22 +272,22 @@ export default defineComponent({
         });
         return;
       }
-      // let user_id = "";
-      // if (window.sessionStorage.userInfo) {
-      //   let userInfo = JSON.parse(window.sessionStorage.userInfo);
-      //   user_id = userInfo._id;
-      // } else {
-      //   ElMessage({
-      //     message: "登录才能评论，请先登录！",
-      //     type: "warning",
-      //   });
-      //   return;
-      // }
+      let user_id = 0;
+      if (window.sessionStorage.userInfo) {
+        let userInfo = JSON.parse(window.sessionStorage.userInfo);
+        user_id = userInfo.id;
+      } else {
+        ElMessage({
+          message: "登录才能评论，请先登录！",
+          type: "warning",
+        });
+        return;
+      }
 
       state.btnLoading = true;
       await service.post(urls.addComment, {
         article_id: state.articleDetail.id,
-        user_id: 1,
+        user_id: user_id,
         content: state.content,
       });
       state.btnLoading = false;
@@ -303,7 +303,7 @@ export default defineComponent({
 
     const route = useRoute();
     onMounted(() => {
-      state.params.id = route.query.article_id as string;
+      state.params.id = route.query.article_id as number;
       if (route.path === "/about") {
         state.params.type = 3;
       }
