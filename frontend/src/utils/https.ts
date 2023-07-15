@@ -26,27 +26,22 @@ service.interceptors.request.use(
   (error: any) => {
     // Do something with request error
     console.error("error:", error); // for debug
-    Promise.reject(error);
   }
 );
 
 // respone 拦截器 axios 的一些配置
 service.interceptors.response.use(
   (res: AxiosResponse) => {
-    // Some example codes here:
-    // code == 0: success
-    const data: ResponseData = res.data
-    if (res.status === 200) {
-        return data.data;
-    } else {
-      ElMessage({
-        message: "网络错误!",
-        type: "error"
-      });
-      return Promise.reject(new Error(data.message || "Error"));
-    }
+    return res.data.data;
   },
-  (error: any) => Promise.reject(error)
+  (error: any) => {
+    ElMessage({
+      message: error.response.data.message,
+      type: "error"
+    });
+    return error.response.data
+    // Promise.reject(error)
+  }
 );
 
 export default service;

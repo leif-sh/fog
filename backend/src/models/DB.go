@@ -24,6 +24,7 @@ func InitDB() {
 		os.Exit(-1)
 	}
 	// 自动更新表结构
+
 	err = db.AutoMigrate(&Article{}, &Meta{}, &Tag{}, &ArticleCategory{}, &Comment{}, &User{})
 	if err != nil {
 		fmt.Println(err)
