@@ -23,21 +23,21 @@ func GetArticleList(c *gin.Context) {
 	//	Keyword    string `json:"keyword"`
 	//	Likes      string `json:"likes"`
 	//	State      int    `json:"state"`
-	PageNum, err := utils.StrToInt(c.Query("page_num"))
+	pageNum, err := utils.StrToInt(c.Query("page_num"))
 	if err != nil {
-		PageNum = 1
+		pageNum = PageNum
 	}
-	PageSize, err := utils.StrToInt(c.Query("page_size"))
+	pageSize, err := utils.StrToInt(c.Query("page_size"))
 	if err != nil {
-		PageSize = 20
+		pageSize = PageSize
 	}
 	TagID, err := utils.StrToInt(c.Query("tag_id"))
 	if err != nil {
 		TagID = 0
 	}
-	CategoryID, err := utils.StrToInt(c.Query("category_id"))
+	categoryID, err := utils.StrToInt(c.Query("category_id"))
 	if err != nil {
-		CategoryID = 0
+		categoryID = 0
 	}
 
 	query := conn
@@ -45,12 +45,12 @@ func GetArticleList(c *gin.Context) {
 		query = query.Joins("left join article_tag_rel on articles.id = article_tag_rel.article_id").
 			Where("article_tag_rel.tag_id = ?", TagID)
 	}
-	if CategoryID != 0 {
+	if categoryID != 0 {
 		query = query.Joins("left join article_category_rel on articles.id = article_category_rel.article_id").
-			Where("article_category_rel.article_category_id = ?", CategoryID)
+			Where("article_category_rel.article_category_id = ?", categoryID)
 	}
 
-	res := query.Scopes(models.Paginate(PageNum, PageSize)).Preload("Meta").Find(&articles)
+	res := query.Scopes(models.Paginate(pageNum, pageSize)).Preload("Meta").Find(&articles)
 
 	http.SuccessResponse(c, &map[string]any{
 		"list":  articles,
@@ -110,27 +110,18 @@ func LikeArticle(c *gin.Context) {
 // @Success 200 {object} map[string]any 返回结果 200 类型（object就是结构体） 类型 注释
 // @Router /api/getTagList [get]
 func GetTagList(c *gin.Context) {
-	var rBody struct {
-		Keyword  string `json:"keyword"`
-		PageNum  int    `json:"page_num"`
-		PageSize int    `json:"page_size"`
-	}
-	if err := c.ShouldBind(&rBody); err != nil {
-		http.ErrorResponse(c, err.Error())
-		return
-	}
-	PageNum, err := utils.StrToInt(c.Query("page_num"))
+	pageNum, err := utils.StrToInt(c.Query("page_num"))
 	if err != nil {
-		PageNum = 1
+		pageNum = PageNum
 	}
-	PageSize, err := utils.StrToInt(c.Query("page_size"))
+	pageSize, err := utils.StrToInt(c.Query("page_size"))
 	if err != nil {
-		PageSize = 20
+		pageSize = PageSize
 	}
 	conn := models.GetDBConn()
 	var tags []models.Tag
 
-	res := conn.Model(&models.Tag{}).Scopes(models.Paginate(PageNum, PageSize)).Find(&tags)
+	res := conn.Model(&models.Tag{}).Scopes(models.Paginate(pageNum, pageSize)).Find(&tags)
 	http.SuccessResponse(c, &map[string]any{
 		"list":  tags,
 		"count": res.RowsAffected,

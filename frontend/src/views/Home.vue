@@ -1274,6 +1274,7 @@ export default defineComponent({
           d.clientHeight
         );
         canvas.width = fullw;
+        console.log("fullw", fullw)
         console.log("fullh", fullh)
         canvas.height = fullh;
       }

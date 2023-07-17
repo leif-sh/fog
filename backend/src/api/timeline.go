@@ -8,7 +8,7 @@ import (
 	"github.com/leif-sh/fog/src/utils"
 )
 
-func GetProjectList(c *gin.Context) {
+func GetTimeLineList(c *gin.Context) {
 	conn := models.GetDBConn()
 	pageSize, err := utils.StrToInt(c.Query("page_size"))
 	if err != nil {
@@ -18,30 +18,30 @@ func GetProjectList(c *gin.Context) {
 	if err != nil {
 		pageNum = PageNum
 	}
-	var projects []models.Project
-	res := conn.Scopes(models.Paginate(pageNum, pageSize)).Find(&projects)
+	var timelines []models.TimeLine
+	res := conn.Scopes(models.Paginate(pageNum, pageSize)).Find(&timelines)
 	if res.Error != nil {
 		fmt.Println(res.Error)
 	}
-
 	http.SuccessResponse(c, &map[string]any{
-		"list":  projects,
+		"list":  timelines,
 		"count": res.RowsAffected,
 	})
 }
 
-func GetProjectDetail(c *gin.Context) {
+func GetTimeLineDetail(c *gin.Context) {
 	conn := models.GetDBConn()
-	projectID, err := utils.StrToUInt64(c.Query("id"))
+	timelineID, err := utils.StrToUInt64(c.Query("id"))
 	if err != nil {
 		http.ErrorResponse(c, err.Error())
 		return
 	}
-	project := models.Project{
+	timeline := models.TimeLine{
 		BaseModel: models.BaseModel{
-			ID: projectID,
+			ID: timelineID,
 		},
 	}
-	conn.First(&project)
-	http.SuccessResponse(c, project)
+	conn.First(&timeline)
+	http.SuccessResponse(c, timeline)
+
 }
