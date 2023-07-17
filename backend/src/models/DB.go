@@ -23,9 +23,10 @@ func InitDB() {
 		fmt.Println("can't connect to mysql")
 		os.Exit(-1)
 	}
-	// 自动更新表结构
 
-	err = db.AutoMigrate(&Article{}, &Meta{}, &Tag{}, &ArticleCategory{}, &Comment{}, &User{})
+	// 自动更新表结构
+	err = db.AutoMigrate(&Article{}, &Meta{}, &Tag{}, &ArticleCategory{}, &Comment{}, &User{}, &Project{}, &TimeLine{})
+
 	if err != nil {
 		fmt.Println(err)
 	}

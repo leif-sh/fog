@@ -39,18 +39,23 @@
             :span="5"
           >
             <div class="nav-right">
+
               <el-dropdown @command="handleLogout">
                 <span class="el-dropdown-link">
                   {{userInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
+                  <img
+                      src="/src/assets/user.png"
+                      class="user-img"
+                      :src="userInfo.avatar"
+                      alt="fogBlog"
+                  />
                 </span>
-                <img
-                  src="../assets/user.png"
-                  class="user-img"
-                  :src="userInfo.avatar"
-                  alt="fogBlog"
-                />
-                {{console.log(userInfo.id)}}
-                {{console.log(userInfo.avatar)}}
+<!--                <img-->
+<!--                  src="/src/assets/user.png"-->
+<!--                  class="user-img"-->
+<!--                  :src="userInfo.avatar"-->
+<!--                  alt="fogBlog"-->
+<!--                />-->
                 <template #dropdown>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item command="logout">登 出</el-dropdown-item>
@@ -89,7 +94,7 @@
             <img
               class="logo fl"
               src="../assets/userLogo.jpeg"
-              alt="BiaoChenXuYing"
+              alt="FogBlog"
             >
           </router-link>
         </div>

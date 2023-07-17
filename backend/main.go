@@ -32,6 +32,12 @@ func setupRouter() *gin.Engine {
 		apiGroup.GET("/getCommentList", api.GetCommentList)
 		apiGroup.GET("/getTagList", api.GetTagList)
 
+		apiGroup.GET("/getProjectList", api.GetProjectList)
+		apiGroup.GET("/getProjectDetail", api.GetProjectDetail)
+
+		apiGroup.GET("/getTimeAxisList", api.GetTimeLineList)
+		apiGroup.GET("/getTimeAxisDetail", api.GetTimeLineDetail)
+
 	}
 
 	// 注册Swagger api相关路由

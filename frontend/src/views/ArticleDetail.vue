@@ -144,13 +144,13 @@ export default defineComponent({
       content: "",
       articleDetail: {
         toc: "",
-        author: "fog",
+        author: "FogBlog",
         category: [],
         comments: [],
         created_at: 1,
         desc: "",
         content: "",
-        id: 16,
+        id: 0,
         img_url: "",
         numbers: 0,
         keyword: [],
@@ -320,10 +320,10 @@ export default defineComponent({
     };
   },
   beforeUnmount(): void {
-    document.title = "夜尽天明的博客网站";
+    document.title = "FogBlog";
     document
       .getElementById("keywords")
-      .setAttribute("content", "夜尽天明 的博客网站");
+      .setAttribute("content", "FogBlog");
     document
       .getElementById("description")
       .setAttribute(
