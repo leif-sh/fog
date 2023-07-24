@@ -70,7 +70,7 @@ func GetArchiveList(c *gin.Context) {
 		tm := time.Unix(0, article.CreatedAt)
 		year := tm.Year()
 		_, ok := articleDic[year]
-		if ok != true {
+		if !ok {
 			yearCount++
 		}
 		articleTmp := make(map[string]any)
