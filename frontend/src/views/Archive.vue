@@ -11,14 +11,14 @@
 
         <el-timeline-item
           v-for="(item, index) in l.list"
-          :key="item._id"
+          :key="item.id"
           :color="item.state === 1 ? 'green' : item.state === 3 ? 'red' : ''"
           placement="top"
           hide-timestamp
         >
           <router-link
             :to="`/articleDetail?article_id=${item.id}`"
-            target="_blank"
+            target="_self"
           >
             <h3 class="title">{{item.title}}</h3>
           </router-link>
@@ -62,7 +62,7 @@ export default defineComponent({
     const handleSearch = async (): Promise<void> => {
       state.isLoading = true;
       const data: ArchiveData = await service.get(
-        urls.getArticleList,
+        urls.getArchiveList,
         {
           params: state.params,
         }

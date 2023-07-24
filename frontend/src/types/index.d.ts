@@ -52,14 +52,14 @@ export interface ParamsArchive {
   state: number; // 文章发布状态 => 0 草稿，1 已发布,'' 代表所有文章
   article: number;
   tag_id: string;
-  category_id: string;
+  category_id: number;
   pageNum: number;
   pageSize: number;
 }
 export interface ArchiveListItem {
-  created_at: string;
+  created_at: number;
   title: string;
-  id: string;
+  id: number;
 }
 export interface ArchiveList {
   year: string;
@@ -132,7 +132,7 @@ export interface ArticlesParams {
   likes: string; // 是否是热门文章
   state: number; // 文章发布状态 => 0 草稿，1 已发布,'' 代表所有文章
   tag_id: string;
-  category_id: string;
+  category_id: number;
   pageNum: number;
   pageSize: number;
 }
