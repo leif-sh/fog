@@ -23,6 +23,7 @@ func setupRouter() *gin.Engine {
 		apiGroup.POST("/login", api.Login)
 		apiGroup.POST("/logout", api.Logout)
 
+		apiGroup.GET("/getArchiveList", api.GetArchiveList)
 		apiGroup.GET("/getArticleList", api.GetArticleList)
 		apiGroup.GET("/getArticleDetail", api.GetArticleDetail)
 		apiGroup.POST("/likeArticle", api.LikeArticle)

@@ -6,6 +6,7 @@ import (
 	"github.com/leif-sh/fog/src/http"
 	"github.com/leif-sh/fog/src/models"
 	"github.com/leif-sh/fog/src/utils"
+	"time"
 )
 
 // GetArticleList
@@ -58,23 +59,66 @@ func GetArticleList(c *gin.Context) {
 	})
 }
 
+func GetArchiveList(c *gin.Context) {
+	var articles []models.Article
+	conn := models.GetDBConn()
+
+	conn.Select("id", "created_at", "title").Order("created_at").Find(&articles)
+	articleDic := make(map[int][]models.Article)
+	yearCount := 0
+	for _, article := range articles {
+		tm := time.Unix(0, article.CreatedAt)
+		year := tm.Year()
+		_, ok := articleDic[year]
+		if ok != true {
+			yearCount++
+		}
+		articleTmp := make(map[string]any)
+		articleTmp["id"] = article.ID
+		articleTmp["Title"] = article.Title
+		articleTmp["created_at"] = article.CreatedAt
+		articleDic[year] = append(articleDic[year], article)
+	}
+
+	var articleList []map[string]any
+	for k, v := range articleDic {
+		tmp := make(map[string]any)
+		tmp["year"] = utils.IntToStr(k)
+		tmp["list"] = v
+		articleList = append(articleList, tmp)
+	}
+
+	http.SuccessResponse(c, &map[string]any{
+		"list":  articleList,
+		"count": yearCount,
+	})
+}
+
 func GetArticleDetail(c *gin.Context) {
 	conn := models.GetDBConn()
-	articleID, err := utils.StrToInt(c.Query("id"))
+	articleType, err := utils.StrToInt(c.Query("type"))
 	if err != nil {
 		http.ErrorResponse(c, err.Error())
 		return
 	}
-	var article = models.Article{
-		BaseModel: models.BaseModel{
-			ID: uint64(articleID),
-		},
+	var article = models.Article{}
+	if articleType == 3 {
+		article.ArticleType = 3
+		conn.Where(&article).First(&article)
+
+	} else {
+		articleID, err := utils.StrToUInt64(c.Query("id"))
+		if err != nil {
+			http.ErrorResponse(c, err.Error())
+			return
+		}
+		article.ID = articleID
+		conn.Preload("Meta").Preload("Tags").First(&article)
+		var comments []models.Comment
+		conn.Preload("User").Preload("OtherComments").
+			Where("article_id = ? and comment_id = ?", article.ID, 0).Find(&comments)
+		article.Comment = comments
 	}
-	conn.Preload("Meta").Preload("Tags").First(&article)
-	var comments []models.Comment
-	conn.Preload("User").Preload("OtherComments").
-		Where("article_id = ? and comment_id = ?", article.ID, 0).Find(&comments)
-	article.Comment = comments
 	article.Meta.Views++
 	conn.Save(&article.Meta)
 	http.SuccessResponse(c, article)

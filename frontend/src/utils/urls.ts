@@ -9,6 +9,7 @@ export const urls: any = {
   addThirdComment: "addThirdComment",
   getCommentList: "getCommentList",
 
+  getArchiveList: "getArchiveList",
   getArticleList: "getArticleList",
   likeArticle: "likeArticle",
   getArticleDetail: "getArticleDetail",

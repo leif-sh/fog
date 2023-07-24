@@ -13,3 +13,8 @@ func StrToUInt64(input string) (uint64, error) {
 	res, err := strconv.Atoi(input)
 	return uint64(res), err
 }
+
+func IntToStr(input int) string {
+	res := strconv.Itoa(input)
+	return res
+}
