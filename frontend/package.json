@@ -1,5 +1,5 @@
 {
-  "name": "blog-vue-ts-vite",
+  "name": "fog-blog",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
