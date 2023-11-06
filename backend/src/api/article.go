@@ -51,7 +51,7 @@ func GetArticleList(c *gin.Context) {
 			Where("article_category_rel.article_category_id = ?", categoryID)
 	}
 
-	res := query.Scopes(models.Paginate(pageNum, pageSize)).Preload("Meta").Find(&articles)
+	res := query.Debug().Not("article_type = ?", AdminIntroduce).Scopes(models.Paginate(pageNum, pageSize)).Preload("Meta").Find(&articles)
 
 	http.SuccessResponse(c, &map[string]any{
 		"list":  articles,
@@ -63,7 +63,8 @@ func GetArchiveList(c *gin.Context) {
 	var articles []models.Article
 	conn := models.GetDBConn()
 
-	conn.Select("id", "created_at", "title").Order("created_at").Find(&articles)
+	conn.Select("id", "created_at", "title").Not("article_type = ?", AdminIntroduce).
+		Order("created_at").Find(&articles)
 	articleDic := make(map[int][]models.Article)
 	yearCount := 0
 	for _, article := range articles {

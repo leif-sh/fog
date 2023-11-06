@@ -153,14 +153,14 @@ export default defineComponent({
     const routeChange = (val: any, oldVal: any): void => {
       state.tag_name = decodeURI(getQueryStringByName("tag_name"));
       state.params.tag_id = getQueryStringByName("tag_id");
-      state.params.category_id = getQueryStringByName("category_id");
+      state.params.category_id = Number(getQueryStringByName("category_id"));
       state.articlesList = [];
       state.params.pageNum = 1;
       handleSearch();
     }
 
     onMounted(() => {
-      handleSearch();
+      // handleSearch();
       window.onscroll = () => {
         if (getScrollTop() + getWindowHeight() > getDocumentHeight() - 100) {
           // 如果不是已经没有数据了，都可以继续滚动加载
